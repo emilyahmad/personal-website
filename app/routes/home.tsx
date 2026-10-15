@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { handleContact } from "../lib/contact.server";
-import { ContactForm } from "../components/ContactForm";
 import { Section } from "../components/Section";
 import type { Route } from "./+types/home";
 import { sections, type Project, type Section as SectionData } from "../data/projects";
@@ -27,10 +25,6 @@ const links = [
   { label: "X", href: "https://x.com/ti84plusbaby" },
 ];
 
-export async function action({ request }: Route.ActionArgs) {
-  return handleContact(request);
-}
-
 export default function Home() {
   const [open, setOpen] = useState<{ project: Project; gradient: string } | null>(null);
   const openProject = (project: Project, gradient: string) => setOpen({ project, gradient });
@@ -40,11 +34,13 @@ export default function Home() {
       <div className="h-[30vh] min-h-48 w-full bg-gradient-to-r from-berry-300 via-stone-100 to-stone-400 dark:from-berry-900 dark:via-stone-800 dark:to-stone-700" />
 
       <div className="mx-auto max-w-5xl px-4 sm:px-12">
-        <img
-          src="/images/avatar.jpg"
-          alt="Emily Ahmad"
-          className="relative -mt-16 h-32 w-32 rounded-full border-4 border-stone-50 object-cover shadow-sm sm:-mt-20 sm:h-40 sm:w-40 dark:border-stone-950"
-        />
+        <div className="relative -mt-16 h-32 w-32 overflow-hidden rounded-full border-4 border-stone-50 bg-stone-200 shadow-sm sm:-mt-20 sm:h-40 sm:w-40 dark:border-stone-950 dark:bg-stone-800">
+          <img
+            src="/images/pfp.png"
+            alt="Emily Ahmad"
+            className="h-full w-full scale-110 rounded-full object-cover object-[72%_center]"
+          />
+        </div>
 
         <h1 className="mt-6 text-4xl font-bold tracking-tight sm:text-5xl">Emily Ahmad</h1>
         <p className="mt-3 text-stone-500 dark:text-stone-400">
@@ -117,12 +113,6 @@ export default function Home() {
           />
         </Section>
 
-        <Section id="contact" title="Contact">
-          <p className="mt-3 text-sm text-stone-500 dark:text-stone-400">
-            Want to work together or just say hi? Send me a message.
-          </p>
-          <ContactForm />
-        </Section>
       </div>
 
       <ProjectModal
