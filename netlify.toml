@@ -1,0 +1,5 @@
+# Netlify build settings. The React Router adapter (see vite.config.ts) turns the server
+# into a Netlify Function, so the contact form's server action works.
+[build]
+  command = "npm run build"
+  publish = "build/client"

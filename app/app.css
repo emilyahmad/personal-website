@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+/*
+ * Neapolitan theme.
+ * Light mode: vanilla background, chocolate text, strawberry accents.
+ * Dark mode:  dark chocolate background, vanilla text, strawberry accents.
+ *
+ * The site's neutrals are written as Tailwind `stone-*` classes, so the stone scale is redefined
+ * here as a vanilla → chocolate ramp. `berry-*` is the strawberry accent scale.
+ */
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  /* Vanilla → chocolate */
+  --color-stone-50: #fff8ec;
+  --color-stone-100: #f8ecda;
+  --color-stone-200: #eadbc4;
+  --color-stone-300: #d9c2a5;
+  --color-stone-400: #b39880;
+  --color-stone-500: #8c6e5a;
+  --color-stone-600: #6e5242;
+  --color-stone-700: #533c30;
+  --color-stone-800: #3d2a21;
+  --color-stone-900: #2a1c16;
+  --color-stone-950: #1e1410;
+
+  /* Strawberry */
+  --color-berry-100: #fde4e9;
+  --color-berry-200: #f9c9d3;
+  --color-berry-300: #f4a7b8;
+  --color-berry-400: #ee8aa0;
+  --color-berry-500: #d9607a;
+  --color-berry-600: #c04a66;
+  --color-berry-700: #9e3752;
+  --color-berry-800: #6e2a3c;
+  --color-berry-900: #4a1f2b;
+
+  /* Card surface in light mode: a touch lighter than the vanilla page. */
+  --color-cream: #fffdf8;
+}
+
+html,
+body {
+  @apply bg-stone-50 dark:bg-stone-950;
+
+  @media (prefers-color-scheme: dark) {
+    color-scheme: dark;
+  }
+}
+
+/* Categorical chart colors (strawberry, chocolate), validated for colorblind separation in both themes. */
+:root {
+  --series-1: #d9607a;
+  --series-2: #94531f;
+  --series-3: #b38a2e;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --series-1: #da6782;
+    --series-2: #a8611f;
+    --series-3: #b38a2e;
+  }
+}
+
+/* Thin, quiet scrollbar for the horizontal card rows. */
+.scroll-row {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-stone-300) transparent;
+}
+
+@media (prefers-color-scheme: dark) {
+  .scroll-row {
+    scrollbar-color: var(--color-stone-700) transparent;
+  }
+}
+
+/* Keep the page behind an open modal from scrolling. */
+html:has(dialog[open]) {
+  overflow: hidden;
+}
