@@ -87,6 +87,18 @@ export function ProjectModal({ project, gradient, onClose }: Props) {
                   </a>
                 </Property>
               )}
+              {project.demo && (
+                <Property label="Demo">
+                  <a
+                    href={project.demo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="break-all text-stone-700 underline decoration-berry-300 underline-offset-2 hover:decoration-berry-500 dark:text-stone-200"
+                  >
+                    {project.demo.replace(/^https?:\/\//, "")} ↗
+                  </a>
+                </Property>
+              )}
               {project.post && (
                 <Property label="Post">
                   <a

@@ -7,7 +7,7 @@ const kindLabels: Record<Award["kind"], string> = {
 
 type Props = {
   items: Award[];
-  /** Called for awards that have photos; the row opens them in the modal. */
+  /** Called for awards that have photos or a project card; the row opens them in the modal. */
   onOpen: (item: Award) => void;
 };
 
@@ -25,7 +25,7 @@ export function AwardList({ items, onOpen }: Props) {
               <span className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
                 <span className="text-sm font-medium text-stone-800 dark:text-stone-100">
                   {item.title}
-                  {item.link && !item.images && <span className="ml-1 text-stone-400">↗</span>}
+                  {item.link && !item.images && !item.project && <span className="ml-1 text-stone-400">↗</span>}
                 </span>
                 <span className="text-[11px] text-stone-400">{kindLabels[item.kind]}</span>
               </span>
@@ -35,7 +35,7 @@ export function AwardList({ items, onOpen }: Props) {
                 </span>
               )}
             </span>
-            {item.images && (
+            {item.images?.[0] && (
               <img
                 src={item.images[0]}
                 alt=""
@@ -58,7 +58,7 @@ export function AwardList({ items, onOpen }: Props) {
                   : "border-2 border-stone-400 bg-stone-50 dark:border-stone-500 dark:bg-stone-950"
               }`}
             />
-            {item.images ? (
+            {item.images || item.project ? (
               <button type="button" onClick={() => onOpen(item)} className={`${rowClass} ${interactive}`}>
                 {body}
               </button>

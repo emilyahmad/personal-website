@@ -49,18 +49,23 @@ body {
   }
 }
 
-/* Categorical chart colors (strawberry, chocolate), validated for colorblind separation in both themes. */
+/*
+ * Timeline colors: the three Neapolitan flavors.
+ * Vanilla is close to the light page color, so every mark also gets a faint edge (--series-edge).
+ */
 :root {
-  --series-1: #d9607a;
-  --series-2: #94531f;
-  --series-3: #b38a2e;
+  --series-1: #e8839b; /* strawberry */
+  --series-2: #6b4128; /* chocolate */
+  --series-3: #f1dca6; /* vanilla */
+  --series-edge: rgb(61 42 33 / 0.25);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --series-1: #da6782;
-    --series-2: #a8611f;
-    --series-3: #b38a2e;
+    --series-1: #e8839b;
+    --series-2: #a0694a;
+    --series-3: #f1dca6;
+    --series-edge: rgb(255 248 236 / 0.15);
   }
 }
 

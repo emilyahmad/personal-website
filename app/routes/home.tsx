@@ -7,6 +7,7 @@ import { AwardList } from "../components/AwardList";
 import { awards } from "../data/awards";
 import { ProjectModal } from "../components/ProjectModal";
 import { Timeline } from "../components/Timeline";
+import { BrandIcon, type IconName } from "../components/BrandIcon";
 import { experience, toProject } from "../data/experience";
 
 export function meta({}: Route.MetaArgs) {
@@ -16,14 +17,28 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-const links = [
-  { label: "GitHub", href: "https://github.com/emilyahmad" },
-  { label: "LinkedIn", href: "https://www.linkedin.com/in/emily-ahmad/" },
-  { label: "YouTube", href: "https://www.youtube.com/channel/UCFPcshMk6aWtb58VLcOpfTw" },
-  { label: "itch.io", href: "https://emilyahmad.itch.io" },
-  { label: "Instagram", href: "https://www.instagram.com/emoolies/" },
-  { label: "X", href: "https://x.com/ti84plusbaby" },
+const links: { label: string; icon: IconName; href: string }[] = [
+  { label: "GitHub", icon: "github", href: "https://github.com/emilyahmad" },
+  { label: "LinkedIn", icon: "linkedin", href: "https://www.linkedin.com/in/emily-ahmad/" },
+  { label: "YouTube", icon: "youtube", href: "https://www.youtube.com/channel/UCFPcshMk6aWtb58VLcOpfTw" },
+  { label: "itch.io", icon: "itchio", href: "https://emilyahmad.itch.io" },
+  { label: "Instagram", icon: "instagram", href: "https://www.instagram.com/emoolies/" },
+  { label: "X", icon: "x", href: "https://x.com/ti84plusbaby" },
 ];
+
+/** A project card by id, with the gradient of the row it sits in. */
+function findCard(id: string) {
+  for (const section of sections) {
+    const project = section.projects.find((p) => p.id === id);
+    if (project) return { project, gradient: section.gradient };
+  }
+  throw new Error(`Unknown project: ${id}`);
+}
+
+// Awards won with a project show that card's photos and open the card itself.
+const awardRows = awards.map((award) =>
+  award.project && !award.images ? { ...award, images: findCard(award.project).project.images } : award,
+);
 
 export default function Home() {
   const [open, setOpen] = useState<{ project: Project; gradient: string } | null>(null);
@@ -45,16 +60,18 @@ export default function Home() {
         <h1 className="mt-6 text-4xl font-bold tracking-tight sm:text-5xl">Emily Ahmad</h1>
         <p className="mt-3 text-stone-500 dark:text-stone-400">
           17-year-old builder · NYC</p>
-        <nav className="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-sm">
+        <nav className="mt-3 -ml-2 flex flex-wrap gap-1">
           {links.map((link) => (
             <a
               key={link.href}
               href={link.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-stone-500 underline decoration-berry-300 underline-offset-2 hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-100"
+              aria-label={link.label}
+              title={link.label}
+              className="rounded-md p-2 text-stone-500 transition hover:bg-berry-100 hover:text-berry-600 focus-visible:outline-2 focus-visible:outline-berry-500 dark:text-stone-400 dark:hover:bg-berry-900 dark:hover:text-berry-300"
             >
-              {link.label}
+              <BrandIcon name={link.icon} className="h-5 w-5" />
             </a>
           ))}
         </nav>
@@ -92,8 +109,9 @@ export default function Home() {
 
         <Section id="awards" title="Awards & Certifications">
           <AwardList
-            items={awards}
-            onOpen={(award) =>
+            items={awardRows}
+            onOpen={(award) => {
+              if (award.project) return setOpen(findCard(award.project));
               setOpen({
                 project: {
                   id: award.id,
@@ -108,8 +126,8 @@ export default function Home() {
                   images: award.images,
                 },
                 gradient: "",
-              })
-            }
+              });
+            }}
           />
         </Section>
 
