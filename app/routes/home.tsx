@@ -51,7 +51,7 @@ export default function Home() {
       <div className="mx-auto max-w-5xl px-4 sm:px-12">
         <div className="relative -mt-16 h-32 w-32 overflow-hidden rounded-full border-4 border-stone-50 bg-stone-200 shadow-sm sm:-mt-20 sm:h-40 sm:w-40 dark:border-stone-950 dark:bg-stone-800">
           <img
-            src="/images/pfp.png"
+            src="/images/pfp.webp"
             alt="Emily Ahmad"
             className="h-full w-full scale-110 rounded-full object-cover object-[72%_center]"
           />
